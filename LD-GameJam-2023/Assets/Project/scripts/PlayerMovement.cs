@@ -8,13 +8,13 @@ using static UnityEngine.EventSystems.StandaloneInputModule;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    private const float SENSITIVITY_DIVIDER = 200f;
     [Header("Moving")]
     [SerializeField] private float MovementSpeed = 3.6f;
     [SerializeField] private float SprintSpeed = 6.1f;
     [Header("Looking")]
     [SerializeField] private Transform PlayerCamera;
-    [SerializeField] private float Sensitivity = 1;
+    //[SerializeField] private int Sensitivity = 50;
     [SerializeField] private float MaxLookAngle = 75f;//75 degrees
     [Header("Interactions")]
     [SerializeField] private PlayerLookInteract playerLookInteract;
@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
         _audioWalking = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
         Cursor.lockState = CursorLockMode.Locked;
+        Debug.Log((float)(GlobalState.SENSITIVITY / SENSITIVITY_DIVIDER));
     }
 
     // Update is called once per frame
@@ -72,9 +73,9 @@ public class PlayerMovement : MonoBehaviour
     }
     private void LookPlayer()
     {
-        _look.x += (_lookInput.x * Sensitivity);
-        _look.y -= (_lookInput.y * Sensitivity);
-        _look.y = Mathf.Clamp(_look.y - (_lookInput.y * Sensitivity), -MaxLookAngle, MaxLookAngle);
+        _look.x += (_lookInput.x * (float)(GlobalState.SENSITIVITY / SENSITIVITY_DIVIDER));
+        _look.y -= (_lookInput.y * (float)(GlobalState.SENSITIVITY / SENSITIVITY_DIVIDER));
+        _look.y = Mathf.Clamp(_look.y - (_lookInput.y * (float)(GlobalState.SENSITIVITY / SENSITIVITY_DIVIDER)), -MaxLookAngle, MaxLookAngle);
         transform.localEulerAngles = new Vector3(0, _look.x, 0);
         PlayerCamera.localEulerAngles = new Vector3(_look.y, 0, 0);
     }

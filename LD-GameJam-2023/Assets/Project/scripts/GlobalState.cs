@@ -10,5 +10,7 @@ public static class GlobalState
     public static bool HAS_CHECKLIST { get; set; } = false;
     public static bool BRAM_MODE { get; set; } = false;
 
+    public static float SENSITIVITY { get; set; } = 50f;
+
     public static DeliveredPackages DELIVERED_PACKAGES { get; set; } = DeliveredPackages.NONE;
 }
